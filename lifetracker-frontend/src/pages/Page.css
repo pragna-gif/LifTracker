@@ -1,0 +1,95 @@
+/* Shared page styles */
+.page { padding: 32px; max-width: 1100px; }
+.page-title { font-size: 24px; font-weight: 800; color: #1a1a2e; margin-bottom: 4px; }
+.page-sub { font-size: 14px; color: #888; margin-bottom: 22px; }
+.page-loading { padding: 60px; text-align: center; color: #888; }
+
+/* Add form */
+.add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.form-input {
+  padding: 9px 12px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 9px;
+  font-size: 13px;
+  outline: none;
+  min-width: 120px;
+  flex: 1;
+  transition: border-color 0.15s;
+}
+.form-input:focus { border-color: #6c63ff; }
+
+/* Buttons */
+.btn-primary {
+  padding: 9px 18px;
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.btn-primary:hover { background: #5a52e0; }
+.btn-outline {
+  padding: 9px 18px;
+  background: #fff;
+  color: #6c63ff;
+  border: 1.5px solid #6c63ff;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-outline:hover { background: #f0f0ff; }
+.btn-delete {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+.btn-delete:hover { background: #fff0f0; color: #ef4444; }
+
+/* Chart card */
+.chart-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.chart-title { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 14px; }
+.charts-grid { display: grid; gap: 16px; }
+
+/* Table */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { text-align: left; padding: 8px 10px; color: #888; font-weight: 600; font-size: 11px; text-transform: uppercase; border-bottom: 1px solid #f0f0f0; }
+.data-table td { padding: 10px; border-bottom: 1px solid #f8f8f8; color: #333; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: #fafafa; }
+.table-wrap { overflow-x: auto; }
+
+/* Tag / badge */
+.tag {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #ede7f6;
+  color: #6c63ff;
+}

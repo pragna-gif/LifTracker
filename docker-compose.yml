@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: lifetracker-db
+    environment:
+      POSTGRES_DB: lifetracker
+      POSTGRES_USER: lifetracker
+      POSTGRES_PASSWORD: lifetracker123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lifetracker"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./lifetracker-backend
+    container_name: lifetracker-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/lifetracker
+      SPRING_DATASOURCE_USERNAME: lifetracker
+      SPRING_DATASOURCE_PASSWORD: lifetracker123
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build: ./lifetracker-frontend
+    container_name: lifetracker-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

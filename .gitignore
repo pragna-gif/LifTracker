@@ -1,0 +1,30 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# Backend (Maven / Spring Boot)
+lifetracker-backend/target/
+lifetracker-backend/.mvn/wrapper/maven-wrapper.jar
+lifetracker-backend/HELP.md
+
+# Frontend (Node / CRA)
+lifetracker-frontend/node_modules/
+lifetracker-frontend/build/
+lifetracker-frontend/.env
+lifetracker-frontend/.env.local
+lifetracker-frontend/.env.*.local
+lifetracker-frontend/npm-debug.log*
+lifetracker-frontend/yarn-debug.log*
+lifetracker-frontend/yarn-error.log*
+
+# Secrets — keep local overrides out of git
+**/application-local.yml
+**/.env
+**/.env.*

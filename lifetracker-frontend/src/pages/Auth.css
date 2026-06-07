@@ -1,0 +1,35 @@
+.auth-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px;
+  width: 380px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.auth-brand { font-size: 22px; font-weight: 800; color: #1a1a2e; text-align: center; }
+.auth-sub { font-size: 13px; color: #888; text-align: center; margin-bottom: 28px; }
+.auth-tabs { display: flex; border-radius: 10px; background: #f3f4f6; padding: 4px; margin-bottom: 20px; }
+.tab { flex: 1; padding: 8px; border: none; background: none; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 500; color: #888; }
+.tab.active { background: #fff; color: #1a1a2e; font-weight: 700; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+.auth-input {
+  width: 100%; padding: 12px 14px; border: 1.5px solid #e5e7eb;
+  border-radius: 10px; font-size: 14px; margin-bottom: 12px;
+  outline: none; box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+.auth-input:focus { border-color: #6c63ff; }
+.auth-btn {
+  width: 100%; padding: 13px; background: #6c63ff; color: #fff;
+  border: none; border-radius: 10px; font-size: 15px; font-weight: 700;
+  cursor: pointer; margin-top: 4px;
+  transition: background 0.15s;
+}
+.auth-btn:hover { background: #5a52e0; }
+.auth-btn:disabled { background: #a9a9c8; cursor: not-allowed; }
+.auth-error { background: #fff0f0; color: #ef4444; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 12px; }
