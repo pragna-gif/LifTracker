@@ -33,8 +33,13 @@ export default function Content() {
   };
 
   const handleStatusChange = async (id, status) => {
-    await api.patch(`/content/${id}/status?status=${status}`);
-    fetchAll();
+    try {
+      await api.patch(`/content/${id}/status?status=${status}`);
+      fetchAll();
+    } catch {
+      alert('Failed to update status. Please try again.');
+      fetchAll();
+    }
   };
 
   const platformChart = stats?.byPlatform ? {

@@ -18,7 +18,7 @@ export default function AiBot({ pageType, getData }) {
       setSuggestions(res.data.suggestions);
       setAsked(true);
     } catch {
-      setSuggestions('Could not load suggestions. Make sure your OpenAI API key is set in application.yml.');
+      setSuggestions('Could not load suggestions. Make sure the backend is running and your Gemini API key is set in application-local.yml.');
     } finally {
       setLoading(false);
     }

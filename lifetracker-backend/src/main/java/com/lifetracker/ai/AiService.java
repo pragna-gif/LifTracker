@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -13,13 +14,16 @@ import java.util.*;
 @RequiredArgsConstructor
 public class AiService {
 
-    @Value("${gemini.api-key}")
+    @Value("${gemini.api-key:}")
     private String apiKey;
+
+    @Value("${gemini.model:gemini-2.0-flash}")
+    private String model;
 
     private final RestTemplate restTemplate;
 
-    private static final String GEMINI_URL =
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key=";
+    private static final String GEMINI_BASE =
+        "https://generativelanguage.googleapis.com/v1beta/models/";
 
     private static final Map<String, String> PAGE_PROMPTS = Map.of(
         "expenses",  "You are a personal finance advisor. Analyze this expense data and give exactly 3 short, specific, actionable money-saving tips. Be direct and practical. Data: ",
@@ -32,6 +36,10 @@ public class AiService {
     );
 
     public String getSuggestions(AiRequest request) {
+        if (apiKey == null || apiKey.isBlank()) {
+            return "AI tips are not configured. Add your Gemini API key to application-local.yml or set GEMINI_API_KEY.";
+        }
+
         String prompt = PAGE_PROMPTS.getOrDefault(request.getPageType(),
                 "Analyze this data and give 3 actionable improvement tips. Data: ")
                 + request.getDataContext();
@@ -39,22 +47,37 @@ public class AiService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // Gemini request format
         Map<String, Object> part    = Map.of("text", prompt);
         Map<String, Object> content = Map.of("parts", List.of(part));
         Map<String, Object> body    = Map.of("contents", List.of(content));
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+        String url = GEMINI_BASE + model + ":generateContent?key=" + apiKey;
 
         try {
-            ResponseEntity<Map> response = restTemplate.exchange(
-                    GEMINI_URL + apiKey, HttpMethod.POST, entity, Map.class);
+            ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
+            Map<?, ?> responseBody = response.getBody();
+            if (responseBody == null) {
+                return "Unable to get AI suggestions right now. Empty response from Gemini.";
+            }
 
-            List<Map> candidates = (List<Map>) response.getBody().get("candidates");
+            List<Map> candidates = (List<Map>) responseBody.get("candidates");
+            if (candidates == null || candidates.isEmpty()) {
+                return "Unable to get AI suggestions right now. No suggestions returned.";
+            }
+
             Map content0  = (Map) candidates.get(0).get("content");
             List<Map> parts = (List<Map>) content0.get("parts");
             return (String) parts.get(0).get("text");
 
+        } catch (HttpStatusCodeException e) {
+            if (e.getStatusCode().value() == 429) {
+                return "AI is temporarily rate-limited. Please wait a moment and tap Refresh suggestions.";
+            }
+            if (e.getStatusCode().value() == 400 && e.getResponseBodyAsString().contains("API_KEY_INVALID")) {
+                return "Gemini API key is invalid. Get a free key at aistudio.google.com and add it to application-local.yml.";
+            }
+            return "Unable to get AI suggestions right now. Error: " + e.getStatusCode() + " " + e.getStatusText();
         } catch (Exception e) {
             return "Unable to get AI suggestions right now. Error: " + e.getMessage();
         }

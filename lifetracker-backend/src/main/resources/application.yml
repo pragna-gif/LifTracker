@@ -2,6 +2,9 @@ server:
   port: 8080
 
 spring:
+  config:
+    import: optional:classpath:application-local.yml
+
   datasource:
     url: jdbc:postgresql://localhost:5432/lifetracker
     username: lifetracker
@@ -26,9 +29,11 @@ app:
     secret: ${JWT_SECRET:change-this-jwt-secret-in-production}
     expiration-ms: 86400000   # 24 hours
 
-# Google Gemini — free at aistudio.google.com → Get API Key
+# Google Gemini — get a free key at https://aistudio.google.com/apikey
+# Set GEMINI_API_KEY env var, or copy application-local.yml.example → application-local.yml
 gemini:
-  api-key: ${GEMINI_API_KEY:your-gemini-api-key-here}
+  api-key: ${GEMINI_API_KEY:}
+  model: ${GEMINI_MODEL:gemini-flash-latest}
 
 # CORS – allow React dev server
 spring.mvc.cors:

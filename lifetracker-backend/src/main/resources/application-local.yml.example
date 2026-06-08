@@ -1,0 +1,9 @@
+# Copy this file to application-local.yml (same folder) and fill in your keys.
+# application-local.yml is gitignored — never commit real secrets.
+
+gemini:
+  api-key: "YOUR_GEMINI_API_KEY_FROM_aistudio.google.com"
+
+app:
+  jwt:
+    secret: "your-local-jwt-secret-at-least-32-chars"

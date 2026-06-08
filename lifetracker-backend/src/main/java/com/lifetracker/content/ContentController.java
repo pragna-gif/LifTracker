@@ -30,10 +30,11 @@ public class ContentController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<ContentItem> updateStatus(@AuthenticationPrincipal UserDetails user,
-                                                    @PathVariable Long id,
-                                                    @RequestParam String status) {
-        return ResponseEntity.ok(contentService.updateStatus(user.getUsername(), id, status));
+    public ResponseEntity<Void> updateStatus(@AuthenticationPrincipal UserDetails user,
+                                             @PathVariable Long id,
+                                             @RequestParam String status) {
+        contentService.updateStatus(user.getUsername(), id, status);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
